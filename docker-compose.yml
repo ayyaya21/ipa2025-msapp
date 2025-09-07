@@ -1,0 +1,45 @@
+services:
+  web:
+    build: ./web
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+    networks:
+      - app-net
+
+  mongo:
+    image: mongo:6
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - app-net
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: rabbitmq
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq/mnesia
+    networks:
+      - app-net
+    
+  scheduler:
+    build: ./scheduler
+    depends_on:
+      - mongo
+    networks:
+      - app-net
+
+volumes:
+  mongo-data:
+  rabbitmq_data:
+
+networks:
+  app-net:
