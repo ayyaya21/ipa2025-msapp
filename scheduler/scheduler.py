@@ -1,9 +1,14 @@
-import time, pika
+import time, pika, os
 from bson import json_util
 from producer import produce
 from database import get_router_info
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def scheduler():
+
+    RABBITMQ_HOST = os.environ.get("RABBITMQ_HOST")
 
     INTERVAL = 10.0
     next_run = time.monotonic()
@@ -19,7 +24,8 @@ def scheduler():
         try:
             for data in get_router_info():
                 body_bytes = json_util.dumps(data).encode("utf-8")
-                produce("rabbitmq", body_bytes)
+                produce(RABBITMQ_HOST, body_bytes)
+
         except Exception as e:
             print(e, flush=True)
             time.sleep(3)
