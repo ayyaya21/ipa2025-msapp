@@ -1,12 +1,14 @@
-import os, time, pika
 from dotenv import load_dotenv
+from callback import callback
+import os
+import time
+import pika
+
 
 load_dotenv()
-
-from callback import callback
-
 user = os.getenv("RABBITMQ_DEFAULT_USER")
-pwd  = os.getenv("RABBITMQ_DEFAULT_PASS")
+pwd = os.getenv("RABBITMQ_DEFAULT_PASS")
+
 
 def consume(host):
     for attempt in range(10):
@@ -27,7 +29,10 @@ def consume(host):
     ch = conn.channel()
     ch.queue_declare(queue="router_jobs")
     ch.basic_qos(prefetch_count=1)
-    ch.basic_consume(queue="router_jobs", on_message_callback=callback, auto_ack=True)
+    ch.basic_consume(
+        queue="router_jobs",
+        on_message_callback=callback,
+        auto_ack=True)
     ch.start_consuming()
 
 
