@@ -3,7 +3,7 @@ services:
     build: ./web
     ports:
       - "8080:8080"
-    file:
+    env_file:
       - .env
     depends_on:
       - mongo
@@ -30,7 +30,7 @@ services:
     #   MONGO_URI: mongodb://mongo:27017/
     #   DB_NAME: ipa2025
     #   RABBITMQ_HOST: rabbitmq
-    file:
+    env_file:
       - .env
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq/mnesia
@@ -57,7 +57,7 @@ services:
     #   MONGO_URI: mongodb://mongo:27017/
     #   DB_NAME: ipa2025
     #   RABBITMQ_HOST: rabbitmq
-    file:
+    env_file:
       - .env
     networks:
       - app-net
