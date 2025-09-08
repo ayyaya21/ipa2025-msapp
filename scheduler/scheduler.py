@@ -1,5 +1,4 @@
 import time, pika
-
 from bson import json_util
 from producer import produce
 from database import get_router_info
@@ -15,14 +14,14 @@ def scheduler():
         now_str = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(now))
         ms = int((now % 1) * 1000)  
         now_str_with_ms = f"{now_str}.{ms:03d}"
-        print(f"[{now_str_with_ms}] run #{count}")
+        print(f"[{now_str_with_ms}] run #{count}", flush=True)
 
         try:
             for data in get_router_info():
                 body_bytes = json_util.dumps(data).encode("utf-8")
                 produce("rabbitmq", body_bytes)
         except Exception as e:
-            print(e)
+            print(e, flush=True)
             time.sleep(3)
         count += 1
         next_run += INTERVAL
