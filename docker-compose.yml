@@ -16,6 +16,8 @@ services:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
+    env_file:
+      - .env
     networks:
       - app-net
 
@@ -42,6 +44,8 @@ services:
     depends_on:
       - mongo
       - rabbitmq
+    env_file:
+      - .env
     networks:
       - app-net
   
