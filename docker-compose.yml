@@ -26,19 +26,13 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
-    # environment:
-    #   RABBITMQ_DEFAULT_USER: admin
-    #   RABBITMQ_DEFAULT_PASS: rabbitmq
-    #   MONGO_URI: mongodb://mongo:27017/
-    #   DB_NAME: ipa2025
-    #   RABBITMQ_HOST: rabbitmq
     env_file:
       - .env
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq/mnesia
     networks:
       - app-net
-    
+  
   scheduler:
     build: ./scheduler
     depends_on:
@@ -55,12 +49,6 @@ services:
       - mongo
       - scheduler
       - rabbitmq
-    # environment:
-    #   RABBITMQ_DEFAULT_USER: admin
-    #   RABBITMQ_DEFAULT_PASS: rabbitmq
-    #   MONGO_URI: mongodb://mongo:27017/
-    #   DB_NAME: ipa2025
-    #   RABBITMQ_HOST: rabbitmq
     env_file:
       - .env
     networks:
