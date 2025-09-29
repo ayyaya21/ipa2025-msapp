@@ -8,5 +8,5 @@ spec:
     app: ipa2025-msapp-web
   ports:
     - port: 80
-      targetPort: 3625
+      targetPort: 8080
   type: ClusterIP
