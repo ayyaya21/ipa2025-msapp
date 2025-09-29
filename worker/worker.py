@@ -1,9 +1,4 @@
-import os
-from dotenv import load_dotenv
 from consumer import consume
+import os
 
-load_dotenv()
-
-RABBITMQ_HOST = os.environ.get("RABBITMQ_HOST")
-
-consume(RABBITMQ_HOST)
+consume(os.getenv("RABBITMQ_HOST"))
